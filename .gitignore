@@ -2,7 +2,8 @@
 .DS_Store
 .idea/
 .vscode/
-.github/
+.github/agents/
+.github/shared/
 .shared/
 .claude/
 temp/
