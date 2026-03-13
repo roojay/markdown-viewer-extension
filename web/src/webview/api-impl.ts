@@ -27,9 +27,9 @@ import type {
   FileStateService as FileStateServiceInterface,
   ResourceService as ResourceServiceInterface,
   MessageService as MessageServiceInterface,
-  RendererThemeConfig,
   PlatformAPI,
 } from '../../../src/types/platform';
+import type { RendererThemeConfig } from '../../../src/types/render';
 import type { CacheStats, SimpleCacheStats } from '../../../src/types/cache';
 import type { FileState } from '../../../src/types/core';
 import type { DownloadOptions } from '../../../src/types/platform';
@@ -42,6 +42,9 @@ import { IframeRenderHost } from '../../../src/renderers/host/iframe-render-host
 
 class WebCacheService implements CacheServiceInterface {
   private cache = new Map<string, unknown>();
+
+  // Satisfy the concrete CacheService shape expected by RendererService
+  public readonly channel: unknown = null;
 
   async init(): Promise<void> { /* no-op */ }
 
@@ -60,6 +63,10 @@ class WebCacheService implements CacheServiceInterface {
     return this.calculateHash(`${type}:${content}:${configStr}`);
   }
 
+  estimateSize(data: unknown): number {
+    return new Blob([typeof data === 'string' ? data : JSON.stringify(data)]).size;
+  }
+
   async get(key: string): Promise<unknown> {
     return this.cache.get(key) ?? null;
   }
@@ -67,6 +74,10 @@ class WebCacheService implements CacheServiceInterface {
   async set(key: string, value: unknown): Promise<boolean> {
     this.cache.set(key, value);
     return true;
+  }
+
+  async delete(key: string): Promise<boolean> {
+    return this.cache.delete(key);
   }
 
   async clear(): Promise<boolean> {
@@ -295,7 +306,7 @@ export class WebPlatformAPI implements PlatformAPI {
           return null;
         },
       }),
-      cache: this.cache,
+      cache: this.cache as unknown as import('../../../src/services/cache-service').CacheService,
     });
 
     this.i18n = new WebI18nService(this.settings, this.resource);

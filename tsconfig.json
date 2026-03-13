@@ -28,7 +28,8 @@
     "chrome/src/**/*",
     "firefox/src/**/*",
     "vscode/src/**/*",
-    "mobile/src/**/*"
+    "mobile/src/**/*",
+    "web/src/**/*"
   ],
   "exclude": [
     "node_modules",
