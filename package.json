@@ -10,6 +10,7 @@
     "build:mobile": "node mobile/build.js",
     "build:vscode": "node vscode/build.js",
     "build:obsidian": "node obsidian/build.js",
+    "build:web": "node web/build.js",
     "sync:formats": "node scripts/sync-formats.js",
     "build:app": "node mobile/build-app.js all",
     "build:ios": "node mobile/build-app.js ios",
