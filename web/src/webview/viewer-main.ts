@@ -56,6 +56,9 @@ export interface ViewerMainOptions {
 // Helpers
 // ============================================================================
 
+/** Supported file extensions for drag-and-drop */
+const SUPPORTED_DROP_EXTENSIONS = /\.(md|markdown|txt|mmd|mermaid)$/i;
+
 /** Stable key for storing per-"file" state in the web version. */
 function getFileKey(): string {
   return window.location.href.split('#')[0];
@@ -394,7 +397,6 @@ export async function initializeViewerMain(options: ViewerMainOptions): Promise<
     const files = e.dataTransfer?.files;
     if (!files || files.length === 0) return;
     const file = files[0];
-    const SUPPORTED_DROP_EXTENSIONS = /\.(md|markdown|txt|mmd|mermaid)$/i;
     if (!SUPPORTED_DROP_EXTENSIONS.test(file.name)) return;
 
     const reader = new FileReader();
