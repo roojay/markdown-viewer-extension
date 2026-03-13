@@ -22,7 +22,6 @@ Thumbs.db
 
 # Dependencies
 node_modules/
-package-lock.json
 pubspec.lock
 
 # Build output
